@@ -1,0 +1,20 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Personajes Favoritos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Favoritos</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <app-personaje-list 
+  [personajes]="personajes" 
+  [titulo]="'Favoritos'" 
+  [subtitulo]="'Ricky & Morty'">
+  </app-personaje-list> 
+
+</ion-content>
