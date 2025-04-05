@@ -14,27 +14,6 @@
   <app-explore-container name="Personajes page"></app-explore-container>
 
 
-  <!--
-  <ion-list class="ion-padding-top">
-    <ion-list-header>
-      <ion-label><strong>{{titulo1}} - {{subtitulo1}}</strong></ion-label>
-    </ion-list-header>
-
-    <ion-item *ngFor="let personaje of personajes">
-      <ion-avatar slot="start">
-        <img alt="Silhouette of a person's head" src="{{personaje.image}}" />
-      </ion-avatar>
-      <ion-label
-        >{{personaje.name}} - {{personaje.species}} -
-        {{personaje.status}}</ion-label
-      >
-    </ion-item>
-  </ion-list>
-  
-    *ngIf="!completado"
-  -->
-
-
   <app-personaje-list 
   [personajes]="personajes" 
   [titulo]="titulo1" 

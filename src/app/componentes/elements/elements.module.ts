@@ -7,6 +7,7 @@ import { EpisodioListComponent } from './episodio-list/episodio-list.component';
 import { EpisodioCardComponent } from './episodio-card/episodio-card.component';
 import { LocalizacionCardComponent } from './localizacion-card/localizacion-card.component';
 import { LocalizacionListComponent } from './localizacion-list/localizacion-list.component';
+import { PhotoGalleryComponent } from './photo-gallery/photo-gallery.component';
 
 
 
@@ -17,7 +18,8 @@ import { LocalizacionListComponent } from './localizacion-list/localizacion-list
     EpisodioListComponent,
     EpisodioCardComponent,
     LocalizacionCardComponent,
-    LocalizacionListComponent
+    LocalizacionListComponent,
+    PhotoGalleryComponent
   ],
   imports: [
     CommonModule,
@@ -29,7 +31,8 @@ import { LocalizacionListComponent } from './localizacion-list/localizacion-list
     EpisodioListComponent,
     EpisodioCardComponent,
     LocalizacionCardComponent,
-    LocalizacionListComponent  
+    LocalizacionListComponent,
+    PhotoGalleryComponent
   ]
 })
 export class ElementsModule { }

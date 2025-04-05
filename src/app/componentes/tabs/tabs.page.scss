@@ -1,1 +1,17 @@
 
+ion-tab-bar {
+    overflow-x: auto;
+    white-space: nowrap;
+    display: flex;
+    justify-content: flex-start;
+  
+    ion-tab-button {
+      flex: 0 0 auto; // Evita que los botones se encajen uno al lado del otro
+      min-width: 80px; // Ajusta este valor si deseas más o menos espacio
+    }
+  
+    &::-webkit-scrollbar {
+      display: none; // Oculta la barra de scroll en navegadores basados en WebKit
+    }
+  }
+  

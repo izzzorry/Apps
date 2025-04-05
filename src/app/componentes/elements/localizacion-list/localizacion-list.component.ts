@@ -1,29 +1,39 @@
-import { Component, EnvironmentInjector, inject,OnInit } from '@angular/core';
-import { IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel } from '@ionic/angular/standalone';
+import { Component, Input, OnInit } from '@angular/core';
+import { IonAccordion, IonAccordionGroup, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonIcon, IonItem, IonLabel, IonList, IonThumbnail } from '@ionic/angular/standalone';
+import { PersonajeListComponent } from '../personaje-list/personaje-list.component';
+import { Router } from '@angular/router';
+
 import { addIcons } from 'ionicons';
-import {
-  //triangle, ellipse, square,
-  videocam,
-  people,home,cart,star} from 'ionicons/icons';
-
-
+import { people } from 'ionicons/icons';
 
 @Component({
   selector: 'app-localizacion-list',
   templateUrl: './localizacion-list.component.html',
   styleUrls: ['./localizacion-list.component.scss'],
-  imports: [IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel],
-  standalone:true
+  imports: [
+    IonList, IonItem, IonLabel, IonIcon,
+    IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle,
+    IonThumbnail, IonAccordion, IonAccordionGroup,
+    PersonajeListComponent
+  ],
+  standalone: true
 })
-export class LocalizacionListComponent  implements OnInit {
-  public environmentInjector = inject(EnvironmentInjector);
-  constructor() { 
-    addIcons({
-      //triangle, ellipse, square,
-      videocam,
-      people,home,cart,star })
+export class localizacionListComponent implements OnInit {
+  @Input() locations: any[] = [];
+  @Input() titulo: string = '';
+  @Input() subtitulo: string = '';
+
+  titulo1: string = 'Habitantes';
+  subtitulo1: string = 'Ricky & Morty';
+
+  constructor(private router: Router) {
+    addIcons({ people });
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
+  verLocation(id: number) {
+    console.log('Location', id);
+    this.router.navigate(['/location-detail', id]);
+  }
 }

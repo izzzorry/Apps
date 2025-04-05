@@ -1,76 +1,107 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonBackButton, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
-import { ActivatedRoute } from '@angular/router';
+import {
+  IonContent,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardSubtitle,
+  IonInfiniteScroll,
+  IonInfiniteScrollContent
+} from '@ionic/angular/standalone';
+
 import { RickymortyServiceService } from 'src/app/services/rickymorty-service.service';
-import { PersonajeCardComponent } from '../elements/personaje-card/personaje-card.component';
+import { firstValueFrom } from 'rxjs';
+import { InfiniteScrollCustomEvent } from '@ionic/angular';
+
+import { localizacionListComponent } from '../elements/localizacion-list/localizacion-list.component';
 
 @Component({
   selector: 'app-page2',
   templateUrl: './page2.page.html',
   styleUrls: ['./page2.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton,   
-    //Card de la Pelicula
-    //IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonText,
-    //IonLabel, IonIcon, IonItem,
-    PersonajeCardComponent, CommonModule, FormsModule]
-
+  imports: [
+    CommonModule,
+    IonContent,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonCard,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardSubtitle,
+    IonInfiniteScroll,
+    IonInfiniteScrollContent,
+    localizacionListComponent
+  ]
 })
 export class Page2Page implements OnInit {
-  id!: number;
-  personaje: any;
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private bd: RickymortyServiceService) {
+  lugares: any[] = [];
+  lugaresTemp: any[] = [];
+  url_next: string | null = 'https://rickandmortyapi.com/api/location';
+  cargando = false;
 
-      this.activatedRoute.params.subscribe(params => {
+  titulo1: string = 'Localizaciones';
+  subtitulo1: string = 'de Ricky & Morty';
 
-      this.id = params['id'];
-
-      console.log("IDPERSONAJE_COMP", this.id);
-      
-      if (this.id){
-        this.cargarUnPersonaje()
-      }
-        
-
-
-
-      //Datos Locales
-      //this.heroe = this._heroesService.getHeroe(this.id);
-      //this.cargarDataLocal()
-
-      //Datos en BD
-      //this.cargarData()
-
-      // console.log(this.Fotos);
-
-    });
-
-   }
+  constructor(private bd: RickymortyServiceService) {}
 
   ngOnInit() {
+    this.cargarLugares(this.url_next!);
   }
 
-  //El metodo que va a cargar los personajes
-  async cargarUnPersonaje() {
-    //this.cargando = true;
-    await this.bd
-      .geUnPersonaje(this.id)
-      .toPromise()
-      .then((resp: any) => {
-        //Aqui se realiza la asignacion de los personajes de la respuesta
-        this.personaje = resp;
+  async cargarLugares(url: string) {
+    if (this.cargando) return;
 
-        console.log("MIPERSONAJEPAGE", this.personaje);
+    this.cargando = true;
+    try {
+      const resp: any = await firstValueFrom(this.bd.getLugaresPorURL(url));
+      if (resp) {
+        this.lugaresTemp = resp.results;
+        this.url_next = resp.info.next;
 
-      });
+        await this.cargarResidentesParaLugares();
+
+        this.lugares.push(...this.lugaresTemp);
+      }
+    } catch (error) {
+      console.error("Error obteniendo lugares:", error);
+    } finally {
+      this.cargando = false;
+    }
   }
 
+  async cargarResidentesParaLugares() {
+    for (let lugar of this.lugaresTemp) {
+      const residentsPromises = lugar.residents.map((url: string) =>
+        this.obtenerDetallePersonaje(url)
+      );
+      const residents = await Promise.all(residentsPromises);
+      lugar.residents = residents; // reemplaza las URLs por los objetos
+    }
 
+    console.log('Lugares con personajes resueltos:', this.lugaresTemp);
+  }
 
+  async obtenerDetallePersonaje(url: string) {
+    try {
+      const response: any = await firstValueFrom(this.bd.getCharacterDetails(url));
+      return response;
+    } catch (error) {
+      console.error('Error cargando personaje desde URL:', error);
+      return {};
+    }
+  }
+
+  async onIonInfinite(event: InfiniteScrollCustomEvent) {
+    if (this.url_next !== null && !this.cargando) {
+      await this.cargarLugares(this.url_next);
+    }
+    event.target.complete();
+  }
 }
-

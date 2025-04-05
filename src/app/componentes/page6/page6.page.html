@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Geolocalización</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-button expand="full" (click)="getCurrentLocation()">
+    Obtener Ubicación Actual
+  </ion-button>
+  @if (latitude !== null && longitude !== null){
+  <ion-card >
+    <ion-card-header>
+      <ion-card-title>Ubicación Actual</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p><strong>Latitud:</strong> {{ latitude }}</p>
+      <p><strong>Longitud:</strong> {{ longitude }}</p>
+    </ion-card-content>
+  </ion-card>
+  }
+</ion-content>

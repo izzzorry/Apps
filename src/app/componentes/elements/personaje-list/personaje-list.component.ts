@@ -37,7 +37,7 @@ export class PersonajeListComponent implements OnInit {
 
   verPersonaje(unIdPersonaje:number){
     console.log("PERSONAJE",unIdPersonaje);
-    this.router.navigate(['/page2',unIdPersonaje]);
+    this.router.navigate(['/page4',unIdPersonaje]);
   }
 
   addFavorito(unPersonaje:any){
