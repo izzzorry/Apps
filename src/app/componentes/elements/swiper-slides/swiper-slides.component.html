@@ -1,33 +1,20 @@
-
-<!-- Slider main container -->
 <ion-toolbar>
-  <ion-title slot="start">{{titulo}}</ion-title>
+  <ion-title slot="start">{{ titulo }}</ion-title>
   <ion-buttons slot="end">
-   
+    <!-- Puedes poner botones aquí si los necesitas -->
   </ion-buttons>
 </ion-toolbar>
 
+<!-- Swiper container -->
 <div class="swiper-container">
-  <!-- Additional required wrapper -->
   <div class="swiper-wrapper">
-    <!-- Slides -->
-    @for( image of images; track image){
-    <div class="swiper-slide">
+    <div class="swiper-slide" *ngFor="let image of images; trackBy: trackImage">
       <img [src]="image" alt="Imagen Slide" />
     </div>
-    }
   </div>
 
-  <!-- If we need pagination -->
   <div class="swiper-pagination"></div>
-
-  <!-- If we need navigation buttons 
-   
-    
-  -->
   <div class="swiper-button-prev" (click)="goPrev()"></div>
   <div class="swiper-button-next" (click)="goNext()"></div>
-
-  <!-- If we need scrollbar -->
   <div class="swiper-scrollbar"></div>
 </div>

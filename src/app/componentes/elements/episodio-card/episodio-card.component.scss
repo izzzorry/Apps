@@ -1,0 +1,97 @@
+ion-card {
+    background-color: #fff0f5;
+    border-radius: 18px;
+    box-shadow: 0 6px 16px rgba(255, 192, 203, 0.3);
+    border: 1px solid #ffc0cb;
+    overflow: hidden;
+    margin-bottom: 24px;
+  
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      border-bottom: 2px solid #ffc0cb;
+      max-height: 220px;
+    }
+  
+    ion-card-header {
+      background-color: #fffafc;
+      padding: 16px;
+  
+      ion-card-title {
+        font-family: 'Winky Rough', cursive;
+        font-size: 24px;
+        color: #c71585;
+        margin-bottom: 4px;
+        text-align: center;
+      }
+  
+      ion-card-subtitle {
+        font-family: 'Poppins', sans-serif;
+        font-size: 14px;
+        color: #aa4466;
+        text-align: center;
+        display: block;
+        margin-bottom: 12px;
+      }
+  
+      ion-item {
+        --background: transparent;
+        --inner-padding-end: 0;
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 10px;
+  
+        ion-icon {
+          color: #d63384;
+          font-size: 18px;
+        }
+  
+        ion-label {
+          font-family: 'Poppins', sans-serif;
+          color: #555;
+          font-size: 14px;
+        }
+      }
+  
+      ion-toolbar {
+        --background: transparent;
+        padding-left: 0;
+        padding-right: 0;
+        margin-top: 10px;
+  
+        ion-buttons {
+          display: flex;
+          justify-content: space-around;
+          width: 100%;
+  
+          ion-button {
+            --border-radius: 16px;
+            font-size: 13px;
+            padding: 8px 12px;
+            text-transform: none;
+  
+            ion-icon {
+              font-size: 18px;
+              margin-right: 4px;
+            }
+  
+            ion-label {
+              font-family: 'Poppins', sans-serif;
+              color: #d63384;
+            }
+          }
+        }
+      }
+    }
+  
+    ion-card-content {
+      padding: 16px;
+  
+      app-swiper-slides,
+      app-personaje-list {
+        margin-top: 16px;
+      }
+    }
+  }
+  

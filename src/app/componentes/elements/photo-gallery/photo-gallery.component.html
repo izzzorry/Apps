@@ -1,12 +1,12 @@
-
-<!-- src/app/components/photo-gallery/photo-gallery.component.html -->
+<!-- photo-gallery.component.html -->
 <div>
   <h1>Galería de Fotos</h1>
-  <button (click)="takePhoto()">Tomar Foto</button>
+  <ion-button (click)="takePhoto()">Tomar Foto</ion-button>
+
   <div *ngIf="photos.length">
     <h2>Fotos tomadas</h2>
     <div *ngFor="let photo of photos">
-      <img [src]="`/assets/${photo}`" alt="Foto" width="200"/>
+      <img [src]="photo" alt="Foto" width="200" />
     </div>
   </div>
 </div>

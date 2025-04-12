@@ -6,7 +6,7 @@
   <ion-card-content>
     <ion-list>
       @for (location of locations; track location.id) {
-        <ion-item color="primary">
+        <ion-item>
           <ion-label (click)="verLocation(location.id)">
             {{ location.name }} - {{ location.type }} - {{ location.dimension }}
           </ion-label>

@@ -1,0 +1,54 @@
+:host {
+    display: block;
+    padding: 16px;
+    background-color: #fff0f5; // fondo pastel suave
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(255, 192, 203, 0.15);
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+  }
+  
+  h1 {
+    font-family: 'Winky Rough', cursive;
+    color: #c71585;
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  
+  ion-button {
+    --background: #ffc0cb;
+    --color: #fff;
+    --border-radius: 20px;
+    margin: 0 auto 20px;
+    display: block;
+    font-weight: 600;
+  
+    &:hover {
+      --background: #ffb6c1;
+    }
+  }
+  
+  h2 {
+    font-size: 18px;
+    color: #d63384;
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  
+  div[ng-reflect-ng-if] {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    justify-items: center;
+  }
+  
+  img {
+    width: 100%;
+    max-width: 200px;
+    border-radius: 12px;
+    border: 2px solid #ffc0cb;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    object-fit: cover;
+  }
+  

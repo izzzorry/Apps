@@ -1,50 +1,64 @@
 import { Injectable } from '@angular/core';
-import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
-import { Filesystem, Directory } from '@capacitor/filesystem';
+import {
+  Camera,
+  CameraResultType,
+  CameraSource,
+  Photo
+} from '@capacitor/camera';
+import {
+  Filesystem,
+  Directory
+} from '@capacitor/filesystem';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PhotoService {
 
-  constructor() { }
+  constructor() {}
 
-  // Tomar una foto usando la cámara
-  public async takePhoto() {
+  public async takePhoto(): Promise<string> {
     const photo = await Camera.getPhoto({
       resultType: CameraResultType.Uri,
       source: CameraSource.Camera,
-      quality: 100,
+      quality: 90,
     });
 
-    // Guardar la foto tomada
     const savedPhoto = await this.savePicture(photo);
-    return savedPhoto;
+    return savedPhoto; // Esto será una ruta válida tipo 'data:image/jpeg;base64,...'
   }
 
-  // Guardar la foto en el sistema de archivos
   private async savePicture(photo: Photo): Promise<string> {
-    // Obtener la foto en base64
-    const base64Data = await fetch(photo.webPath!).then((res) => res.blob()).then((blob) => {
-      return new Promise<string>((resolve) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          // Especificamos que el resultado es un string, que es lo que se espera
-          const base64String = reader.result as string;
-          resolve(base64String.split(',')[1]); // Extraer la parte de la imagen base64
-        };
-        reader.readAsDataURL(blob);
-      });
-    });
+    const base64Data = await this.readAsBase64(photo);
 
-    // Guardar el archivo en el sistema de archivos
     const fileName = new Date().getTime() + '.jpeg';
     await Filesystem.writeFile({
       path: fileName,
-      data: base64Data, // Ahora es de tipo string
+      data: base64Data,
       directory: Directory.Data,
     });
 
-    return fileName; // Retorna el nombre del archivo guardado
+    // Leerlo nuevamente como base64 para mostrar en <img>
+    const readResult = await Filesystem.readFile({
+      path: fileName,
+      directory: Directory.Data,
+    });
+
+    return `data:image/jpeg;base64,${readResult.data}`;
+  }
+
+  private async readAsBase64(photo: Photo): Promise<string> {
+    const response = await fetch(photo.webPath!);
+    const blob = await response.blob();
+
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64 = (reader.result as string).split(',')[1];
+        resolve(base64);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
   }
 }

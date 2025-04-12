@@ -1,0 +1,59 @@
+ion-content {
+  padding-bottom: 80px; // Ajusta este valor según el alto del tab-bar
+}
+
+ion-header {
+    --background: #fad2e0; // Fondo para todo el header (incluye toolbar)
+  
+    ion-toolbar {
+      --background: #fde9ef; // Esto asegura que el toolbar no sobrescriba el header
+      
+  
+      ion-title {
+        font-weight: 600;
+        font-size: 20px;
+        padding-left: 8px;
+      }
+    }
+  
+    &[collapse='condense'] {
+      ion-toolbar {
+        ion-title[size='large'] {
+          font-size: 24px;
+          font-weight: bold;
+          padding-left: 12px;
+        }
+      }
+    }
+  }
+  
+  ion-title {
+    font-family: 'Winky Rough', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    color: #222;
+  }
+  
+  ion-content {
+    --background: #fff; // Fondo blanco o el que tú quieras para el contenido principal
+    padding: 16px 12px;
+  
+    app-explore-container {
+      margin-bottom: 16px;
+    }
+  
+    app-personaje-list {
+      margin-bottom: 24px;
+    }
+  
+    ion-infinite-scroll {
+      margin-top: 24px;
+  
+      ion-infinite-scroll-content {
+        --spinner-color: #3880ff;
+        font-size: 14px;
+        color: #666;
+      }
+    }
+  }
+  

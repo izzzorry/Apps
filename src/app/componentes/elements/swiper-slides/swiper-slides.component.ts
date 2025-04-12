@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonButton, IonButtons, IonIcon, IonTitle, IonToolbar } from '@ionic/angular/standalone';
-
+import 'swiper/swiper-bundle.css';
 import Swiper from 'swiper';
 import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from 'swiper/modules';
 
@@ -38,6 +38,12 @@ export class SwiperSlidesComponent implements OnInit {
   constructor() {
     addIcons({ arrowBack, arrowForward });
   }
+
+  // Dentro de swiper-slides.component.ts
+  trackImage(index: number, item: string): string {
+    return item;
+  }
+
 
   ngOnInit() {
     // Mostrar Swiper solo si hay imágenes

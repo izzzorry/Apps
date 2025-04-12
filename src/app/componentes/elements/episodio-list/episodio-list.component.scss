@@ -1,0 +1,96 @@
+ion-card {
+    background-color: #fff0f5; // Rosado pastel
+    border-radius: 18px;
+    box-shadow: 0 4px 12px rgba(255, 182, 193, 0.2);
+    border: 1px solid #ffc0cb;
+    overflow: hidden;
+  
+    ion-card-header {
+      padding: 16px;
+      background-color: #ffe4e1;
+      border-bottom: 1px solid #ffc0cb;
+  
+      ion-card-title {
+        font-family: 'Winky Rough', cursive;
+        font-size: 22px;
+        color: #c71585;
+        text-align: center;
+      }
+  
+      ion-card-subtitle {
+        font-family: 'Poppins', sans-serif;
+        font-size: 14px;
+        color: #aa4466;
+        text-align: center;
+      }
+    }
+  
+    ion-card-content {
+      padding: 16px;
+  
+      ion-list {
+        background-color: transparent;
+  
+        ion-item {
+          --background: #fff;
+          border-radius: 12px;
+          margin-bottom: 12px;
+          padding: 10px;
+          box-shadow: 0 2px 6px rgba(255, 182, 193, 0.1);
+  
+          ion-thumbnail {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            border: 2px solid #ffb6c1;
+  
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
+          }
+  
+          ion-label {
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            color: #444;
+            cursor: pointer;
+  
+            &:hover {
+              color: #d63384;
+            }
+          }
+        }
+  
+        ion-accordion-group {
+          ion-accordion {
+            margin-top: 8px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(255, 182, 193, 0.1);
+  
+            ion-item[slot='header'] {
+              background-color: #fffafc;
+              --color: #c71585;
+  
+              ion-label {
+                font-family: 'Poppins', sans-serif;
+                color: #d63384;
+              }
+  
+              ion-icon {
+                font-size: 20px;
+              }
+            }
+  
+            [slot='content'] {
+              background-color: #fff;
+              border-top: 1px solid #ffd6dc;
+            }
+          }
+        }
+      }
+    }
+  }
+  

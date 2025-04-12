@@ -1,26 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {
+  IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonInput,
+  IonItem, IonLabel, IonList, IonTitle, IonToolbar
+} from '@ionic/angular/standalone';
+
 import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
-import { AlertController, IonicModule } from '@ionic/angular';
-import { scan } from 'ionicons/icons';
+import { AlertController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
+import { scan } from 'ionicons/icons';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-page-qr',
+  templateUrl: './page5.page.html',
+  styleUrls: ['./page5.page.scss'],
   standalone: true,
   imports: [
-    CommonModule,
-    IonicModule
-  ],
-  templateUrl: 'page5.page.html',
-  styleUrls: ['page5.page.scss'],
+    IonContent, IonHeader, IonTitle, IonToolbar, CommonModule,
+    IonList, IonItem, IonInput, IonLabel, IonFab, IonFabButton, IonIcon
+  ]
 })
 export class Page5Page implements OnInit {
   isSupported = false;
   barcodes: Barcode[] = [];
 
   constructor(private alertController: AlertController) {
-    addIcons({scan});
+    addIcons({ scan });
   }
 
   ngOnInit() {
@@ -35,6 +40,7 @@ export class Page5Page implements OnInit {
       this.presentAlert();
       return;
     }
+
     const { barcodes } = await BarcodeScanner.scan();
     this.barcodes.push(...barcodes);
   }
@@ -46,10 +52,11 @@ export class Page5Page implements OnInit {
 
   async presentAlert(): Promise<void> {
     const alert = await this.alertController.create({
-      header: 'Permission denied',
-      message: 'Please grant camera permission to use the barcode scanner.',
+      header: 'Permiso denegado',
+      message: 'Debes permitir acceso a la cámara para escanear códigos.',
       buttons: ['OK'],
     });
     await alert.present();
   }
 }
+
