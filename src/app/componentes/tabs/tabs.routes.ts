@@ -46,6 +46,11 @@ export const routes: Routes = [
         loadComponent: () =>
           import('../page6/page6.page').then((m) => m.Page6Page),
       },
+      {
+        path: 'tab9',
+        loadComponent: () =>
+          import('../page7/page7.page').then((m) => m.Page7Page),
+      },
 
       {
         path: '',

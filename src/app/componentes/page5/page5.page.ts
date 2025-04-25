@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonInput,
-  IonItem, IonLabel, IonList, IonTitle, IonToolbar
+  IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonItem,
+  IonLabel, IonList, IonTitle, IonToolbar, AlertController
 } from '@ionic/angular/standalone';
 
-import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
-import { AlertController } from '@ionic/angular';
+import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 import { addIcons } from 'ionicons';
 import { scan } from 'ionicons/icons';
 
@@ -17,37 +16,43 @@ import { scan } from 'ionicons/icons';
   standalone: true,
   imports: [
     IonContent, IonHeader, IonTitle, IonToolbar, CommonModule,
-    IonList, IonItem, IonInput, IonLabel, IonFab, IonFabButton, IonIcon
+    IonList, IonItem, IonLabel, IonFab, IonFabButton, IonIcon
   ]
 })
-export class Page5Page implements OnInit {
-  isSupported = false;
-  barcodes: Barcode[] = [];
+export class Page5Page {
+  codigoEscaneado: string = '';
+  barcodes: any[] = [];
+isSupported = true;
+
 
   constructor(private alertController: AlertController) {
     addIcons({ scan });
   }
 
-  ngOnInit() {
-    BarcodeScanner.isSupported().then((result) => {
-      this.isSupported = result.supported;
-    });
-  }
+  async scan() {
+    BarcodeScanner.hideBackground(); 
+    document.body.classList.add('scanner-active');
 
-  async scan(): Promise<void> {
-    const granted = await this.requestPermissions();
-    if (!granted) {
+    const status = await BarcodeScanner.checkPermission({ force: true });
+
+    if (!status.granted) {
       this.presentAlert();
+      document.body.classList.remove('scanner-active');
       return;
     }
 
-    const { barcodes } = await BarcodeScanner.scan();
-    this.barcodes.push(...barcodes);
-  }
+    const result = await BarcodeScanner.startScan();
 
-  async requestPermissions(): Promise<boolean> {
-    const { camera } = await BarcodeScanner.requestPermissions();
-    return camera === 'granted' || camera === 'limited';
+    if (result.hasContent) {
+      this.codigoEscaneado = result.content;
+      alert('Código escaneado:\n' + result.content);
+    } else {
+      alert('No se detectó ningún código.');
+    }
+
+    BarcodeScanner.showBackground();
+    await BarcodeScanner.stopScan();
+    document.body.classList.remove('scanner-active');
   }
 
   async presentAlert(): Promise<void> {
@@ -59,4 +64,3 @@ export class Page5Page implements OnInit {
     await alert.present();
   }
 }
-
