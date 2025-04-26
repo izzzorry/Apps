@@ -3,10 +3,13 @@
   <h1>Galería de Fotos</h1>
   <ion-button (click)="takePhoto()">Tomar Foto</ion-button>
 
-  <div *ngIf="photos.length">
-    <h2>Fotos tomadas</h2>
-    <div *ngFor="let photo of photos">
-      <img [src]="photo" alt="Foto" width="200" />
+  <div *ngFor="let item of photos">
+    <img [src]="item.photo" />
+    <div *ngIf="item.coords">
+      <p>Latitud: {{ item.coords.latitude }}</p>
+      <p>Longitud: {{ item.coords.longitude }}</p>
     </div>
+    <p>Fecha: {{ item.timestamp | date:'short' }}</p>
   </div>
+  
 </div>
