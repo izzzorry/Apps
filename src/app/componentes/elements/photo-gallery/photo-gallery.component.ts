@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonButton, IonIcon } from '@ionic/angular/standalone';
 import { PhotoService } from '/Users/abelt/Documents/movilesUao/ProyetSA/proyeSA1/src/app/Fotos/photo.service';
@@ -10,10 +10,14 @@ import { PhotoService } from '/Users/abelt/Documents/movilesUao/ProyetSA/proyeSA
   styleUrls: ['./photo-gallery.component.scss'],
   imports: [CommonModule, IonButton, IonIcon]
 })
-export class PhotoGalleryComponent {
+export class PhotoGalleryComponent implements OnInit {
   photos: { photo: string, coords?: { latitude: number, longitude: number }, timestamp: string }[] = [];
 
   constructor(private photoService: PhotoService) {}
+
+  ngOnInit() {
+    this.loadPhotos(); // 👈 Al cargar el componente, carga las fotos del localStorage
+  }
 
   async takePhoto() {
     try {
@@ -41,7 +45,6 @@ export class PhotoGalleryComponent {
         (error) => {
           console.error('Error al obtener la ubicación', error);
 
-          // Si no se puede obtener ubicación, guardar de todas formas sin coordenadas
           const photoData = { 
             photo, 
             timestamp: new Date().toISOString() 
@@ -62,5 +65,10 @@ export class PhotoGalleryComponent {
     } catch (err) {
       console.error('Error tomando la foto:', err);
     }
+  }
+
+  loadPhotos() {
+    const storedPhotos = JSON.parse(localStorage.getItem('photosWithLocation') || '[]');
+    this.photos = storedPhotos;
   }
 }
