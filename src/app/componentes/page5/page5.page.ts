@@ -5,7 +5,7 @@ import {
   IonLabel, IonList, IonTitle, IonToolbar, AlertController
 } from '@ionic/angular/standalone';
 
-import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
+import { BarcodeScanner, Barcode } from '@capacitor-mlkit/barcode-scanning';
 import { addIcons } from 'ionicons';
 import { scan } from 'ionicons/icons';
 
@@ -29,38 +29,38 @@ isSupported = true;
     addIcons({ scan });
   }
 
-  async scan() {
-    BarcodeScanner.hideBackground(); 
-    document.body.classList.add('scanner-active');
-
-    const status = await BarcodeScanner.checkPermission({ force: true });
-
-    if (!status.granted) {
+  // Función para escanear QR
+  async scan(): Promise<void> {
+    const granted = await this.requestPermissions();
+    if (!granted) {
       this.presentAlert();
-      document.body.classList.remove('scanner-active');
       return;
     }
-
-    const result = await BarcodeScanner.startScan();
-
-    if (result.hasContent) {
-      this.codigoEscaneado = result.content;
-      alert('Código escaneado:\n' + result.content);
+    
+    const { barcodes } = await BarcodeScanner.scan();
+    
+    if (barcodes.length > 0) {
+      this.codigoEscaneado = barcodes[0].rawValue ?? ''; // 👉 guarda el primer código encontrado
     } else {
-      alert('No se detectó ningún código.');
+      this.codigoEscaneado = 'No se detectó ningún código QR.';
     }
-
-    BarcodeScanner.showBackground();
-    await BarcodeScanner.stopScan();
-    document.body.classList.remove('scanner-active');
+  
+    this.barcodes.push(...barcodes);
+    console.log('Códigos escaneados:', this.barcodes);
   }
-
-  async presentAlert(): Promise<void> {
-    const alert = await this.alertController.create({
-      header: 'Permiso denegado',
-      message: 'Debes permitir acceso a la cámara para escanear códigos.',
-      buttons: ['OK'],
-    });
-    await alert.present();
-  }
+  
+  
+    async requestPermissions(): Promise<boolean> {
+      const { camera } = await BarcodeScanner.requestPermissions();
+      return camera === 'granted' || camera === 'limited';
+    }
+  
+    async presentAlert(): Promise<void> {
+      const alert = await this.alertController.create({
+        header: 'Permiso denegado',
+        message: 'Debes conceder permiso de cámara para usar el escáner.',
+        buttons: ['OK'],
+      });
+      await alert.present();
+    }
 }

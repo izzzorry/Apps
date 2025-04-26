@@ -5,16 +5,29 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="scanner-content">
+
+  <!-- Último código escaneado -->
   <ion-list *ngIf="codigoEscaneado">
     <ion-item>
-      <ion-label position="stacked">Código Escaneado</ion-label>
+      <ion-label position="stacked">Último Código Escaneado</ion-label>
       <p>{{ codigoEscaneado }}</p>
     </ion-item>
   </ion-list>
 
+  <!-- Historial de todos los códigos escaneados -->
+  <ion-list *ngIf="barcodes.length > 0">
+    <ion-item *ngFor="let code of barcodes">
+      <ion-label>
+        {{ code.rawValue }}
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- Botón flotante para escanear -->
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button (click)="scan()" [disabled]="!isSupported">
       <ion-icon name="scan"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+
 </ion-content>
